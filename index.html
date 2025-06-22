@@ -1,0 +1,82 @@
+---
+layout: default
+title: Home
+permalink: /
+---
+
+Hello, I am Nouraldin Hassan — a Computer Programming graduate from Algonquin College.
+<br>
+This site is a place to share some of my work, open-source contributions, and development journey.
+<br><br>
+Currently there is nothing here, but I will add more content if I decide to, inshallah.
+
+<!-- - [View my Projects](/projects/)
+- [See my Resume](/resume/)
+- [Get in touch](mailto:) -->
+
+<style>
+    :root {
+        --bg: #ffffff;
+        --text: #000000;
+        --link: #007acc;
+    }
+
+    html[data-theme='dark'] {
+        --bg: #121212;
+        --text: #e0e0e0;
+        --link: #8ab4f8;
+    }
+
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    a {
+        color: var(--link);
+    }
+    
+    #theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border-radius: 10px;
+        border: 1px solid var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--text);
+        z-index: 999;
+    }
+</style>
+
+<script>
+    (function () {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+</script>
+
+<button id="theme-toggle" aria-label="Toggle theme">Switch to Dark Mode</button>
+
+<script>
+    const themebtn = document.getElementById('theme-toggle');
+
+    function toggleTheme() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        themebtn.textContent = isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+    }
+
+    themebtn.textContent =
+        document.documentElement.getAttribute('data-theme') === 'dark'
+        ? 'Switch to Light Mode'
+        : 'Switch to Dark Mode';
+
+    themebtn.addEventListener('click', toggleTheme);
+</script>

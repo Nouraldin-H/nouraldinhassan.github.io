@@ -1,0 +1,12 @@
+title: Nouraldin Hassan
+email: 115514102+Nouraldin-H@users.noreply.github.com
+description: >-
+  Page of an Algonquin College graduate.
+baseurl: "" # GitHub username repo = root
+url: "https://nouraldinhassan.github.io"
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
