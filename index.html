@@ -4,15 +4,21 @@ title: Home
 permalink: /
 ---
 
-Hello, I am Nouraldin Hassan — a Computer Programming graduate from Algonquin College.
+I am a Computer Programming graduate from Algonquin College.
 <br>
-This site is a place to share some of my work, open-source contributions, and development journey.
+This site is a place to share some of my work.
 <br><br>
-Currently there is nothing here, but I will add more content if I decide to, inshallah.
+Currently there is nothing here, but I will add more content if I decide to--inshallah.
 
 <!-- - [View my Projects](/projects/)
 - [See my Resume](/resume/)
 - [Get in touch](mailto:) -->
+
+<!-- <link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/theme-toggle.js" defer></script> -->
+
+<!-- <meta name="description" content="Page of an Algonquin College graduate."> -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
     :root {
@@ -56,12 +62,12 @@ Currently there is nothing here, but I will add more content if I decide to, ins
     (function () {
         const theme = localStorage.getItem('theme');
         if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
         }
     })();
 </script>
 
-<button id="theme-toggle" aria-label="Toggle theme">Switch to Dark Mode</button>
+<button id="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Switch to Dark Mode</button>
 
 <script>
     const themebtn = document.getElementById('theme-toggle');
