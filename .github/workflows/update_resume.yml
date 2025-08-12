@@ -1,0 +1,72 @@
+name: Update Resume
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # Weekly
+
+jobs:
+  update-resume:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch LinkedIn Last-Modified header
+        id: linkedin
+        run: |
+          curl -sI "https://www.linkedin.com/in/nouraldin-hassan/" | grep -i "last-modified" | cut -d' ' -f2- > linkedin_last_modified.txt
+          if [ ! -s linkedin_last_modified.txt ]; then
+            echo "No Last-Modified header found, using current date."
+            date -u > linkedin_last_modified.txt
+          fi
+          cat linkedin_last_modified.txt
+
+      - name: Check if LinkedIn profile updated
+        id: check_update
+        run: |
+          if [ -f .last_linkedin_update ]; then
+            if cmp -s linkedin_last_modified.txt .last_linkedin_update; then
+              echo "No update detected."
+              echo "updated=false" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          fi
+          echo "Update detected."
+          echo "updated=true" >> $GITHUB_OUTPUT
+
+      - name: Exit if not updated
+        if: steps.check_update.outputs.updated == 'false'
+        run: exit 0
+
+      - name: Save new Last-Modified value
+        run: cp linkedin_last_modified.txt .last_linkedin_update
+
+      - name: Fetch Resume from LinkedIn
+        run: |
+          curl -L -o resume.pdf "https://www.linkedin.com/in/nouraldin-hassan/"
+
+      - name: Create or Update Resume Page
+        run: |
+          echo "---" > resume.html
+          echo "layout: page" >> resume.html
+          echo "title: Resume" >> resume.html
+          echo "permalink: /resume/" >> resume.html
+          echo "---" >> resume.html
+          echo "<h1>Resume</h1>" >> resume.html
+          echo "<embed src='/resume.pdf' type='application/pdf' width='100%' height='800px' />" >> resume.html
+
+      - name: Create or switch to resume-update branch
+        run: |
+          git fetch origin
+          git checkout -B resume-update
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+          git add resume.pdf resume.html .last_linkedin_update
+          git commit -m "Update resume from LinkedIn" || echo "No changes to commit."
+
+      - name: Push changes to resume-update branch
+        run: git push origin resume-update --force
